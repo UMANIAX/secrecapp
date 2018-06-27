@@ -1,4 +1,4 @@
-export let courses = [
+const courses = [
 
      {
          name: 'Algorithms',
@@ -11,3 +11,5 @@ export let courses = [
          faculty: 'Mr Y'
      }
  ]
+
+export default courses
