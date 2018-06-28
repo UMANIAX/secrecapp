@@ -1,5 +1,3 @@
-
-
 // const RatingStars = ({starNum, onStarRate, checkedStars}) =>
 //     <div>
 //         {[...Array(starNum)].map((acc, ind) => <Star key={ind} checked={ind < checkedStars} onStarClick={() => onStarRate(ind)}/>)}
@@ -20,13 +18,16 @@ export default class RatingStars extends Component {
 
             checkedStars: 0
         }
-
-        this.onRate = this.onRate.bind(this)
     }
 
-    onRate(starIndex) {
+    shouldComponentUpdate(nextProps, nextState){
 
-        this.setState({checkedStars: starIndex + 1})
+        return this.state.checkedStars !== nextState.checkedStars
+    }
+
+    componentWillUpdate() {
+
+        this.props.ratingUpdate()
     }
 
     render() {
@@ -34,7 +35,7 @@ export default class RatingStars extends Component {
         return (
 
             <div>
-                {[...Array(this.stars)].map((acc, ind) => <Star key={ind} checked={ind < this.state.checkedStars} onStarClick={() => this.onRate(ind)}/>)}
+                {[...Array(this.stars)].map((acc, ind) => <Star key={ind} checked={ind < this.state.checkedStars} onStarClick={() => this.setState({checkedStars: ind + 1})}/>)}
             </div>
         )
     }

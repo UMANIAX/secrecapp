@@ -1,6 +1,6 @@
-import CourseInfo from './courses/CourseInfo'
+import DoctorsInfo from './courses/DoctorsInfo'
 
 const App = () =>
-    <CourseInfo/>
+    <DoctorsInfo/>
 
 export default App
