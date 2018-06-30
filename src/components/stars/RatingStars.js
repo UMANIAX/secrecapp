@@ -4,39 +4,12 @@
 //     </div>
 //
 // export default RatingStars
-
-import {Component} from 'react'
 import Star from './Star'
 
-export default class RatingStars extends Component {
+const RatingStars = ({ratingUpdate, starRates}) =>
+    <div>
+        {[...Array(5)].map((acc, ind) => <Star key={ind} checked={ind < starRates} onStarClick={() => ratingUpdate(ind + 1)}/>)}
+    </div>
 
-    constructor(props) {
 
-        super(props)
-        this.stars = 5
-        this.state = {
-
-            checkedStars: 0
-        }
-    }
-
-    shouldComponentUpdate(nextProps, nextState){
-
-        return this.state.checkedStars !== nextState.checkedStars
-    }
-
-    componentWillUpdate() {
-
-        this.props.ratingUpdate()
-    }
-
-    render() {
-
-        return (
-
-            <div>
-                {[...Array(this.stars)].map((acc, ind) => <Star key={ind} checked={ind < this.state.checkedStars} onStarClick={() => this.setState({checkedStars: ind + 1})}/>)}
-            </div>
-        )
-    }
-}
+export default RatingStars

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -6,10 +6,9 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import {Component} from 'react'
 
 import RatingStars from '../stars/RatingStars'
-
+import {rateDoc} from '../../actions'
 
 const styles = {
     card: {
@@ -31,18 +30,14 @@ const styles = {
 
 class DoctorCard extends Component {
 
-    constructor (props){
-
-        super(props)
-        this.state = {
-
-            rating: 0
-        }
-    }
-
     componentWillMount () {
 
         this.style = {backgroundColor:'#ccc'}
+    }
+
+    shouldComponentUpdate(nextProps, nextState){
+
+        return nextProps.rating !== this.props.rating
     }
 
     componentWillUpdate () {
@@ -53,20 +48,21 @@ class DoctorCard extends Component {
 
     render () {
 
-        const {classes, courseName, courseFaculty} = this.props;
+        const {classes, id, name, speciality, rating} = this.props
+        const {store} = this.context
         return (
             <div>
                 <Card className={classes.card} style={this.style}>
                     <CardContent>
                         <Typography variant="headline" component="h2">
-                            {courseName}
+                            {name}
                         </Typography>
                         <Typography component="p">
-                            {courseFaculty}
+                            {speciality}
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <RatingStars ratingUpdate={rate => this.setState({rating: rate})}/>
+                        <RatingStars starRates={rating} ratingUpdate={rate => store.dispatch(rateDoc(id, rate))}/>
                     </CardActions>
                 </Card>
             </div>
@@ -74,10 +70,12 @@ class DoctorCard extends Component {
     }
 }
 
+DoctorCard.contextTypes = {
+    store: PropTypes.object
+}
+
 DoctorCard.propTypes = {
     classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(DoctorCard);
-
-
+export default withStyles(styles)(DoctorCard)
